@@ -1,149 +1,91 @@
-# 🦖 EducaTurdi
+# 🦖 EducaTurdi *Languages*
 
-Plataforma escolar completa — **Next.js 14 + TypeScript + Tailwind**, autenticação
-e banco de dados no **Supabase**, pronta para hospedar de graça na **Vercel**.
+Uma plataforma para aprender **inglês** e **programação** de um jeito interativo e gamificado — com trilhas, lições, XP, ofensiva (streak), vidas e o **Rex**, o dinossauro mascote.
+
+Feita em **Next.js 14 + TypeScript + Tailwind CSS**, com autenticação e banco de dados no **Supabase**, pronta para hospedar de graça na **Vercel**.
 
 ---
 
-## 1. Banco de dados (Supabase)
-
-Rode os arquivos SQL **nesta ordem**, no SQL Editor do seu projeto Supabase:
-
-1. O schema base que você já tem (tabelas `profiles`, `turmas`, `tarefas`,
-   `entregas`, `apostilas`, `resumos`, `notas`, `comunicados`, etc.).
-2. [`supabase/schema_v2_hierarquia.sql`](./supabase/schema_v2_hierarquia.sql)
-   → adiciona escolas, nível de inglês, meta mensal de pontos, notificações
-   automáticas e todas as políticas de RLS (admin / colaborador / professor / aluno).
-3. [`supabase/schema_v3_ajustes.sql`](./supabase/schema_v3_ajustes.sql)
-   → pequenos ajustes de unicidade que o site usa.
-
-Depois, em **Project Settings → API**, copie:
-- **Project URL** e **anon public key** → variáveis `NEXT_PUBLIC_*`
-- **service_role key** → variável `SUPABASE_SERVICE_ROLE_KEY` (fica só no
-  servidor; é o que permite o admin/professor criar contas e redefinir senhas)
-
-```bash
-cp .env.example .env.local
-# preencha as 3 variáveis
-```
-
-## 2. Rodando localmente
+## 1. Rodando localmente
 
 ```bash
 npm install
 npm run dev
 ```
 
-## 3. Criando o primeiro admin
+Acesse `http://localhost:3000`.
 
-Não existe cadastro público — só login. Para criar **o seu** usuário admin:
+## 2. Configurando o Supabase (grátis)
 
-1. Em Supabase, vá em **Authentication → Users → Add user**, crie seu e-mail/senha.
-2. No **SQL Editor**, rode:
-   ```sql
-   insert into public.profiles (id, nome, tipo, primeiro_acesso)
-   values ('COLE-O-UUID-DO-USUARIO-AQUI', 'Seu Nome', 'admin', false);
-   ```
-   (o admin não passa pela tela de boas-vindas)
-3. Pronto — faça login normalmente em `/login`.
-
-Todo o resto (escolas, turmas, professores, colaboradores, alunos) é criado
-**de dentro do site**, pelo próprio admin.
-
-## 4. Publicando no GitHub + Vercel
+1. Crie uma conta em [supabase.com](https://supabase.com) e um novo projeto (plano Free).
+2. Vá em **SQL Editor** → **New query**, cole todo o conteúdo do arquivo [`supabase/schema.sql`](./supabase/schema.sql) e clique em **Run**. Isso cria:
+   - a tabela `profiles` (username, XP, ofensiva, vidas);
+   - a tabela `lesson_progress` (lições concluídas);
+   - as políticas de segurança (RLS) para cada usuário só ver/editar os próprios dados;
+   - um gatilho que cria o perfil automaticamente quando alguém se cadastra.
+3. Vá em **Project Settings → API** e copie a **Project URL** e a **anon public key**.
+4. Copie o arquivo `.env.example` para `.env.local` e cole os valores:
 
 ```bash
-git init && git add . && git commit -m "EducaTurdi"
+cp .env.example .env.local
+```
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua-anon-key-aqui
+```
+
+5. (Opcional) Em **Authentication → Providers → Email**, você pode desativar a confirmação por e-mail para testar mais rápido, ou deixar ativada para produção.
+
+## 3. Publicando no GitHub
+
+```bash
+git init
+git add .
+git commit -m "EducaTurdi Languages"
 git branch -M main
 git remote add origin https://github.com/SEU-USUARIO/SEU-REPO.git
 git push -u origin main
 ```
 
-Na Vercel: **Add New → Project**, selecione o repositório, adicione as 3
-variáveis de ambiente (as mesmas do `.env.local`) e clique em **Deploy**.
+## 4. Hospedando de graça na Vercel
 
----
-
-## Como funciona a hierarquia
-
-```
-Admin (só você)
- └─ Escola (ex: Escola Geraldinho)
-     ├─ Colaboradores (Direção, Coordenação... — gerenciam a escola toda)
-     ├─ Turma (ex: 9º Ano A)
-     │   └─ Professor(es) vinculado(s) — só enxerga(m) a própria turma
-     │       └─ Alunos daquela turma — só fazem tarefas, veem materiais e notas
-```
-
-| Papel | O que vê / faz |
-|---|---|
-| **Admin** | Tudo: todas as escolas, turmas, usuários. Único acesso sem onboarding. |
-| **Colaborador** | Só a própria escola: cria/edita turmas, professores e alunos dela. |
-| **Professor** | Só a(s) própria(s) turma(s): cria tarefas, apostilas, resumos, lança notas, cria/gerencia os alunos daquela turma, redefine senha deles. |
-| **Aluno** | Só o próprio conteúdo: faz tarefas, vê materiais, vê o próprio boletim e desempenho. |
-
-Tudo isso é garantido por **RLS no banco** (não só na interface) — mesmo que
-alguém troque a URL, o Supabase bloqueia o que não é permitido para aquele
-usuário.
-
-## Meta mensal de pontos
-
-A meta de cada aluno, em cada mês, é **(dias do mês) − 5**. Ex.: mês com 31
-dias → meta de 26 pontos. Os pontos vêm das tarefas entregues e corrigidas
-(`nota_obtida`). Sempre que uma entrega é corrigida, o banco recalcula
-automaticamente e, se o aluno cair abaixo da meta, **avisa o(s) professor(es)
-da turma** (ícone de sino no topo da tela).
-
-## Primeiro acesso
-
-Quando alguém loga pela primeira vez (`primeiro_acesso = true`), cai numa
-tela de boas-vindas simples pedindo só a confirmação do nome — o papel
-(aluno/professor/colaborador) já foi definido por quem criou a conta. Depois
-disso, `primeiro_acesso` vira `false` e a tela nunca mais aparece. O admin
-nunca passa por essa tela.
-
-Em **Configurações** (ícone de engrenagem), qualquer pessoa pode, se quiser,
-trocar e-mail e/ou senha — mas nada disso é obrigatório.
-
-## Modo claro/escuro e o mascote Rex
-
-- O alternador de tema (☀️/🌙) fica no topo, ao lado do sino de notificações,
-  em todas as páginas logadas. A preferência é salva num cookie, então o
-  próprio servidor já entrega a página no tema certo (sem "flash").
-- O Rex (dinossauro mascote) aparece:
-  - grande e animado na home e na tela de login/onboarding;
-  - como um botão flutuante no canto da tela em **todas** as páginas
-    (clique nele para uma dica rápida).
+1. Acesse [vercel.com](https://vercel.com), faça login com o GitHub e clique em **Add New → Project**.
+2. Selecione o repositório que você acabou de subir.
+3. Em **Environment Variables**, adicione as mesmas duas variáveis do `.env.local`:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. Clique em **Deploy**. Pronto — seu site estará no ar em um domínio gratuito `.vercel.app`.
 
 ## Estrutura do projeto
 
 ```
 app/
-  page.tsx                    → landing pública
-  login/                      → login (sem cadastro público)
-  onboarding/                 → boas-vindas no primeiro acesso
-  configuracoes/              → trocar e-mail/senha (opcional)
-  painel/
-    layout.tsx                → navbar + trava de onboarding
-    page.tsx                  → redireciona conforme o papel do usuário
-    admin/                    → admin e colaborador (escolas, turmas, usuários)
-    turma/                    → "Painel da Turma" do professor
-    aluno/                    → área do aluno
-  api/admin/
-    criar-usuario/            → cria contas (usa a service_role key)
-    resetar-senha/            → redefine senhas
-components/                    → Mascote, navbar, formulários, seletor de turma...
+  page.tsx                 → landing page
+  login/, signup/          → autenticação
+  auth/callback/           → confirmação de e-mail
+  dashboard/               → área logada
+    page.tsx               → trilhas (Inglês / Programação)
+    course/[trackId]/      → caminho de lições de uma trilha
+    lesson/[lessonId]/     → exercícios interativos
+    profile/               → estatísticas do usuário
+components/                → Mascote, cartões, barra de XP, player de lição...
 lib/
-  actions/                     → server actions (tarefas, notas, materiais, turmas)
-  data/                        → helpers de consulta (turma do professor/aluno)
-  supabase/                    → clientes (browser, servidor, admin, middleware)
-supabase/                      → migrações SQL
+  data/tracks.ts           → todo o conteúdo das lições (edite/adicione aqui!)
+  supabase/                → clientes do Supabase (browser, servidor, middleware)
+supabase/schema.sql         → esquema do banco de dados
 ```
 
-## O que ainda não está incluso (próximos passos)
+## Adicionando novas lições
 
-- Provas com correção automática (as tabelas `provas`/`questoes`/`opcoes` já
-  existem no banco, prontas para uma tela de prova cronometrada no futuro).
-- Upload de arquivo direto (hoje apostilas/resumos usam um link — ex.: Google
-  Drive. Dá pra evoluir para o Supabase Storage depois).
-- Horários de aula e fichas disciplinares (tabelas já existem, sem tela ainda).
+Todo o conteúdo educacional fica em [`lib/data/tracks.ts`](./lib/data/tracks.ts). Cada trilha tem unidades, cada unidade tem lições, e cada lição tem exercícios de três tipos:
+
+- `mcq` → múltipla escolha
+- `text` → resposta digitada
+- `order` → organizar palavras na ordem certa
+
+Basta seguir o mesmo formato para criar novas unidades, lições ou até novas trilhas.
+
+---
+
+Feito com 🧡 para a comunidade **EducaTurdi**.
