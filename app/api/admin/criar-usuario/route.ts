@@ -26,13 +26,18 @@ export async function POST(request: Request) {
   const { nome, email, tipo, turma_id, cargo } = body as {
     nome: string;
     email: string;
-    tipo: "aluno" | "professor" | "colaborador";
+    tipo: "aluno" | "professor" | "colaborador" | "admin";
     turma_id?: string;
     cargo?: string;
   };
 
   if (!nome || !email || !tipo) {
     return NextResponse.json({ erro: "Preencha nome, e-mail e tipo." }, { status: 400 });
+  }
+
+  // Ninguém cria admin por aqui — só existe o seu, criado direto no banco.
+  if (tipo === "admin") {
+    return NextResponse.json({ erro: "Não é possível criar administradores por aqui." }, { status: 403 });
   }
 
   // Regras de quem pode criar quem
@@ -42,10 +47,6 @@ export async function POST(request: Request) {
   if (quemChama.tipo === "professor" && !turma_id) {
     return NextResponse.json({ erro: "Selecione a turma do aluno." }, { status: 400 });
   }
-  if (quemChama.tipo === "colaborador" && tipo === "admin") {
-    return NextResponse.json({ erro: "Colaboradores não podem criar administradores." }, { status: 403 });
-  }
-
   if (quemChama.tipo === "professor" && turma_id) {
     const { data: vinculo } = await supabase
       .from("turma_professores")
