@@ -2,9 +2,7 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
-  let response = NextResponse.next({
-    request: { headers: request.headers },
-  });
+  let response = NextResponse.next({ request: { headers: request.headers } });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -32,20 +30,19 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isDashboard = request.nextUrl.pathname.startsWith("/dashboard");
-  const isAuthPage =
-    request.nextUrl.pathname.startsWith("/login") ||
-    request.nextUrl.pathname.startsWith("/signup");
+  const path = request.nextUrl.pathname;
+  const isProtected = path.startsWith("/painel") || path.startsWith("/onboarding");
+  const isLogin = path.startsWith("/login");
 
-  if (!user && isDashboard) {
+  if (!user && isProtected) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (user && isAuthPage) {
+  if (user && isLogin) {
     const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
+    url.pathname = "/painel";
     return NextResponse.redirect(url);
   }
 

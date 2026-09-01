@@ -1,4 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/notas/icon.svg" },
+};
 
 export default async function NotasAlunoPage() {
   const supabase = createClient();

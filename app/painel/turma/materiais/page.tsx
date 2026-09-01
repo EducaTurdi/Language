@@ -2,6 +2,11 @@ import { createClient } from "@/lib/supabase/server";
 import { turmaSelecionada } from "@/lib/data/professor";
 import SeletorTurma from "@/components/SeletorTurma";
 import { criarApostila, criarResumo } from "@/lib/actions/materiais";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/turma-materiais/icon.svg" },
+};
 
 export default async function MateriaisProfessorPage({
   searchParams,

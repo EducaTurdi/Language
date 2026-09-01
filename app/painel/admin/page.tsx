@@ -1,5 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
 import Mascot from "@/components/Mascot";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/admin/icon.svg" },
+};
 
 export default async function AdminOverviewPage() {
   const supabase = createClient();

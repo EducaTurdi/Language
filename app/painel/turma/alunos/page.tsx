@@ -4,6 +4,11 @@ import SeletorTurma from "@/components/SeletorTurma";
 import CriarUsuarioForm from "@/components/CriarUsuarioForm";
 import ResetarSenhaButton from "@/components/ResetarSenhaButton";
 import { mesAtual } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/alunos/icon.svg" },
+};
 
 export default async function AlunosProfessorPage({
   searchParams,

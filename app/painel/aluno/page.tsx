@@ -3,6 +3,11 @@ import { createClient } from "@/lib/supabase/server";
 import { obterTurmaDoAluno } from "@/lib/data/aluno";
 import Mascot from "@/components/Mascot";
 import { mesAtual, nomesMeses } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/aluno/icon.svg" },
+};
 
 export default async function AlunoOverviewPage() {
   const supabase = createClient();

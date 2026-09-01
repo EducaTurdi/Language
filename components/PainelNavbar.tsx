@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
-import ThemeToggle from "@/components/ThemeToggle";
 import NotificationBell from "@/components/NotificationBell";
+import ThemeToggle from "@/components/ThemeToggle";
 import { createClient } from "@/lib/supabase/client";
 import { TipoUsuario } from "@/lib/types";
 
@@ -37,10 +37,8 @@ const linksPorTipo: Record<TipoUsuario, { href: string; label: string }[]> = {
 
 export default function PainelNavbar({
   tipo,
-  theme,
 }: {
   tipo: TipoUsuario;
-  theme: "light" | "dark";
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -81,10 +79,10 @@ export default function PainelNavbar({
         </nav>
 
         <div className="flex items-center gap-2 shrink-0">
-          <ThemeToggle theme={theme} />
+          <ThemeToggle />
           <NotificationBell />
           <Link
-            href="/configuracoes"
+            href="/painel/configuracoes"
             className="w-10 h-10 flex items-center justify-center rounded-xl border border-paper-border dark:border-ink-border hover:border-seafoam transition-colors"
             aria-label="Configurações"
           >

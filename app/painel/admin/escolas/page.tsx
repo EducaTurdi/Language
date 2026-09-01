@@ -1,5 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
 import { criarEscola } from "@/lib/actions/escolas-turmas";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/escolas/icon.svg" },
+};
 
 export default async function EscolasPage() {
   const supabase = createClient();

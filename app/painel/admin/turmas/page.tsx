@@ -1,5 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
 import {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/turmas/icon.svg" },
+};
   criarTurma,
   atualizarNivelIngles,
   vincularProfessor,

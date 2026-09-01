@@ -2,6 +2,11 @@ import { createClient } from "@/lib/supabase/server";
 import CriarUsuarioForm from "@/components/CriarUsuarioForm";
 import ResetarSenhaButton from "@/components/ResetarSenhaButton";
 import { rotuloTipo } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/usuarios/icon.svg" },
+};
 
 export default async function UsuariosPage() {
   const supabase = createClient();

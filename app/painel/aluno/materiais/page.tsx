@@ -1,5 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
 import { obterTurmaDoAluno } from "@/lib/data/aluno";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/apostilas/icon.svg" },
+};
 
 export default async function MateriaisAlunoPage() {
   const supabase = createClient();

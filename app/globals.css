@@ -7,16 +7,11 @@ html {
 }
 
 body {
-  background-color: #0f1b22;
-  background-image:
-    radial-gradient(circle at 15% 10%, rgba(255, 107, 74, 0.10), transparent 40%),
-    radial-gradient(circle at 85% 0%, rgba(79, 209, 174, 0.10), transparent 45%);
-  color: #f4efe6;
+  @apply bg-paper text-ink dark:bg-ink dark:text-paper transition-colors duration-300;
 }
 
 ::selection {
-  background-color: #ff6b4a;
-  color: #0f1b22;
+  @apply bg-fossil text-white;
 }
 
 :focus-visible {
@@ -34,14 +29,22 @@ body {
   }
 }
 
-.scrollbar-thin::-webkit-scrollbar {
-  width: 8px;
-}
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #26404c;
-  border-radius: 8px;
+.card {
+  @apply bg-paper-card dark:bg-ink-card border border-paper-border dark:border-ink-border rounded-xl2;
 }
 
-.brand-word {
-  font-family: var(--font-baloo);
+.input {
+  @apply w-full bg-paper dark:bg-ink border-2 border-paper-border dark:border-ink-border focus:border-seafoam rounded-xl px-4 py-3 outline-none transition-colors text-ink dark:text-paper placeholder:text-ink/40 dark:placeholder:text-paper/40;
+}
+
+.btn-primary {
+  @apply bg-fossil hover:bg-fossil-dark text-white font-bold px-5 py-3 rounded-xl shadow-pop active:translate-y-1 active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:active:shadow-pop;
+}
+
+.btn-secondary {
+  @apply bg-seafoam hover:bg-seafoam-dark text-ink font-bold px-5 py-3 rounded-xl shadow-pop active:translate-y-1 active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-ghost {
+  @apply border-2 border-paper-border dark:border-ink-border hover:border-seafoam text-ink dark:text-paper font-semibold px-5 py-3 rounded-xl transition-colors;
 }

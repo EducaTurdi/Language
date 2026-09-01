@@ -3,6 +3,11 @@ import { turmaSelecionada } from "@/lib/data/professor";
 import SeletorTurma from "@/components/SeletorTurma";
 import Mascot from "@/components/Mascot";
 import { mesAtual, nomesMeses } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/turma/icon.svg" },
+};
 
 export default async function PainelTurmaPage({
   searchParams,

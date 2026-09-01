@@ -2,6 +2,11 @@ import { createClient } from "@/lib/supabase/server";
 import { turmaSelecionada } from "@/lib/data/professor";
 import SeletorTurma from "@/components/SeletorTurma";
 import { atualizarNota } from "@/lib/actions/notas";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/turma-notas/icon.svg" },
+};
 
 export default async function NotasProfessorPage({
   searchParams,

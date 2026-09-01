@@ -4,6 +4,11 @@ import { turmaSelecionada } from "@/lib/data/professor";
 import SeletorTurma from "@/components/SeletorTurma";
 import { criarTarefa } from "@/lib/actions/tarefas";
 import { formatarData } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/turma-tarefas/icon.svg" },
+};
 
 export default async function TarefasProfessorPage({
   searchParams,

@@ -2,6 +2,11 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { corrigirEntrega } from "@/lib/actions/tarefas";
 import { formatarData } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/turma-tarefas/icon.svg" },
+};
 
 export default async function CorrigirTarefaPage({ params }: { params: { id: string } }) {
   const supabase = createClient();

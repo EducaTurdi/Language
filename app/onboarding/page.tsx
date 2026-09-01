@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
 import Mascot from "@/components/Mascot";
+import ThemeToggle from "@/components/ThemeToggle";
 import { createClient } from "@/lib/supabase/client";
 import { rotuloTipo } from "@/lib/utils";
 
@@ -69,6 +70,9 @@ export default function OnboardingPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
+      <div className="fixed top-4 right-4">
+        <ThemeToggle />
+      </div>
       <Logo size="md" />
       <div className="flex justify-center my-6">
         <Mascot mood="excited" size={130} floaty />
