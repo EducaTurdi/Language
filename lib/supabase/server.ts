@@ -16,7 +16,8 @@ export function createClient() {
           try {
             cookieStore.set({ name, value, ...options });
           } catch {
-            // ignorado quando chamado de um Server Component
+            // Chamado a partir de um Server Component — pode ser ignorado
+            // porque o middleware já cuida de renovar a sessão.
           }
         },
         remove(name: string, options: CookieOptions) {

@@ -22,7 +22,7 @@ export default async function ProfilePage() {
 
   const totalDone = progress?.length ?? 0;
   const totalLessonsAll = tracks.reduce(
-    (acc, t) => acc + t.units.reduce((a, u) => a + u.lessons.length, 0),
+    (acc, t) => acc + t.units.reduce((a: number, u) => a + u.lessons.length, 0),
     0
   );
 

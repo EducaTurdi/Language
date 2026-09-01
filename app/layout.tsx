@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, Inter } from "next/font/google";
-import { cookies } from "next/headers";
 import "./globals.css";
-import MascotWidget from "@/components/MascotWidget";
 
 const baloo = Baloo_2({
   subsets: ["latin"],
@@ -19,20 +17,19 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EducaTurdi",
-  description: "Plataforma escolar EducaTurdi — notas, tarefas, provas e materiais em um só lugar.",
-  icons: { icon: "/icon.svg" },
+  title: "EducaTurdi Languages",
+  description:
+    "Aprenda inglês e programação de um jeito divertido, com o Rex, o mascote da EducaTurdi Languages.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const theme = cookies().get("theme")?.value === "dark" ? "dark" : "light";
-
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="pt-BR" className={`${baloo.variable} ${inter.variable} ${theme === "dark" ? "dark" : ""}`}>
-      <body className="font-body antialiased min-h-screen">
-        {children}
-        <MascotWidget />
-      </body>
+    <html lang="pt-BR" className={`${baloo.variable} ${inter.variable}`}>
+      <body className="font-body antialiased min-h-screen">{children}</body>
     </html>
   );
 }
