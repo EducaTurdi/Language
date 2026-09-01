@@ -1,5 +1,5 @@
 <p align="center"> 
- <strong># 🗣️ 🧑‍💻 EducaTurdi Language</strong> 
+#  <strong>🗣️ 🧑‍💻 EducaTurdi Language</strong> 
 </p>
 <p align="center">
   <img src="https://raw.githubusercontent.com/EducaTurdi/Language/refs/heads/main/public/aluno/icon.svg" alt="Logo do EducaTurdi Language" width="90" />
