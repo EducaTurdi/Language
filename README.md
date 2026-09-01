@@ -1,149 +1,109 @@
-# 🦖 EducaTurdi
+# 🗣️ EducaTurdi Language
 
-Plataforma escolar completa — **Next.js 14 + TypeScript + Tailwind**, autenticação
-e banco de dados no **Supabase**, pronta para hospedar de graça na **Vercel**.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/EducaTurdi/Language/refs/heads/main/public/aluno/icon.svg" alt="Logo do EducaTurdi Language" width="90" />
+</p>
 
----
+<p align="center">
+  <strong>Um novo jeito de aprender e evoluir.</strong><br>
+  Uma experiência moderna, integrada e pensada para transformar o aprendizado de idiomas.
+</p>
 
-## 1. Banco de dados (Supabase)
-
-Rode os arquivos SQL **nesta ordem**, no SQL Editor do seu projeto Supabase:
-
-1. O schema base que você já tem (tabelas `profiles`, `turmas`, `tarefas`,
-   `entregas`, `apostilas`, `resumos`, `notas`, `comunicados`, etc.).
-2. [`supabase/schema_v2_hierarquia.sql`](./supabase/schema_v2_hierarquia.sql)
-   → adiciona escolas, nível de inglês, meta mensal de pontos, notificações
-   automáticas e todas as políticas de RLS (admin / colaborador / professor / aluno).
-3. [`supabase/schema_v3_ajustes.sql`](./supabase/schema_v3_ajustes.sql)
-   → pequenos ajustes de unicidade que o site usa.
-
-Depois, em **Project Settings → API**, copie:
-- **Project URL** e **anon public key** → variáveis `NEXT_PUBLIC_*`
-- **service_role key** → variável `SUPABASE_SERVICE_ROLE_KEY` (fica só no
-  servidor; é o que permite o admin/professor criar contas e redefinir senhas)
-
-```bash
-cp .env.example .env.local
-# preencha as 3 variáveis
-```
-
-## 2. Rodando localmente
-
-```bash
-npm install
-npm run dev
-```
-
-## 3. Criando o primeiro admin
-
-Não existe cadastro público — só login. Para criar **o seu** usuário admin:
-
-1. Em Supabase, vá em **Authentication → Users → Add user**, crie seu e-mail/senha.
-2. No **SQL Editor**, rode:
-   ```sql
-   insert into public.profiles (id, nome, tipo, primeiro_acesso)
-   values ('COLE-O-UUID-DO-USUARIO-AQUI', 'Seu Nome', 'admin', false);
-   ```
-   (o admin não passa pela tela de boas-vindas)
-3. Pronto — faça login normalmente em `/login`.
-
-Todo o resto (escolas, turmas, professores, colaboradores, alunos) é criado
-**de dentro do site**, pelo próprio admin.
-
-## 4. Publicando no GitHub + Vercel
-
-```bash
-git init && git add . && git commit -m "EducaTurdi"
-git branch -M main
-git remote add origin https://github.com/SEU-USUARIO/SEU-REPO.git
-git push -u origin main
-```
-
-Na Vercel: **Add New → Project**, selecione o repositório, adicione as 3
-variáveis de ambiente (as mesmas do `.env.local`) e clique em **Deploy**.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/NextJS-Dark.svg" height="28" alt="Next.js">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/JavaScript.svg" height="28" alt="JavaScript">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/TypeScript.svg" height="28" alt="TypeScript">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/Vercel-Dark.svg" height="28" alt="Vercel">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/NodeJS-Dark.svg" height="28" alt="Node.js">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/Npm-Dark.svg" height="28" alt="npm">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/SVG-Dark.svg" height="28" alt="SVG">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/Github-Dark.svg" height="28" alt="GitHub">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/Supabase-Dark.svg" height="28" alt="Supabase">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/refs/heads/main/icons/PostgreSQL-Dark.svg" height="28" alt="PostgreSQL">
+</p>
 
 ---
 
-## Como funciona a hierarquia
+## 🌎 Uma nova experiência de aprendizado
 
-```
-Admin (só você)
- └─ Escola (ex: Escola Geraldinho)
-     ├─ Colaboradores (Direção, Coordenação... — gerenciam a escola toda)
-     ├─ Turma (ex: 9º Ano A)
-     │   └─ Professor(es) vinculado(s) — só enxerga(m) a própria turma
-     │       └─ Alunos daquela turma — só fazem tarefas, veem materiais e notas
-```
+O **EducaTurdi Language** nasceu com a ideia de tornar o aprendizado de idiomas mais moderno, agradável e conectado.
 
-| Papel | O que vê / faz |
-|---|---|
-| **Admin** | Tudo: todas as escolas, turmas, usuários. Único acesso sem onboarding. |
-| **Colaborador** | Só a própria escola: cria/edita turmas, professores e alunos dela. |
-| **Professor** | Só a(s) própria(s) turma(s): cria tarefas, apostilas, resumos, lança notas, cria/gerencia os alunos daquela turma, redefine senha deles. |
-| **Aluno** | Só o próprio conteúdo: faz tarefas, vê materiais, vê o próprio boletim e desempenho. |
+Uma experiência digital pensada para unir **tecnologia, conhecimento e praticidade** em um único ambiente.
 
-Tudo isso é garantido por **RLS no banco** (não só na interface) — mesmo que
-alguém troque a URL, o Supabase bloqueia o que não é permitido para aquele
-usuário.
+> 🗣️ **EducaTurdi Language — conhecimento que aproxima pessoas e idiomas.**
 
-## Meta mensal de pontos
+---
 
-A meta de cada aluno, em cada mês, é **(dias do mês) − 5**. Ex.: mês com 31
-dias → meta de 26 pontos. Os pontos vêm das tarefas entregues e corrigidas
-(`nota_obtida`). Sempre que uma entrega é corrigida, o banco recalcula
-automaticamente e, se o aluno cair abaixo da meta, **avisa o(s) professor(es)
-da turma** (ícone de sino no topo da tela).
+## ✨ Feito para aprender de um jeito diferente
 
-## Primeiro acesso
+Com uma identidade visual própria e uma experiência cuidadosamente pensada, o EducaTurdi Language busca deixar o aprendizado mais simples e envolvente.
 
-Quando alguém loga pela primeira vez (`primeiro_acesso = true`), cai numa
-tela de boas-vindas simples pedindo só a confirmação do nome — o papel
-(aluno/professor/colaborador) já foi definido por quem criou a conta. Depois
-disso, `primeiro_acesso` vira `false` e a tela nunca mais aparece. O admin
-nunca passa por essa tela.
+📚 **Mais organização** — uma experiência clara e fácil de acompanhar.
 
-Em **Configurações** (ícone de engrenagem), qualquer pessoa pode, se quiser,
-trocar e-mail e/ou senha — mas nada disso é obrigatório.
+⚡ **Mais praticidade** — conhecimento apresentado de forma simples e acessível.
 
-## Modo claro/escuro e o mascote Rex
+🎨 **Mais modernidade** — uma interface agradável, fluida e atual.
 
-- O alternador de tema (☀️/🌙) fica no topo, ao lado do sino de notificações,
-  em todas as páginas logadas. A preferência é salva num cookie, então o
-  próprio servidor já entrega a página no tema certo (sem "flash").
-- O Rex (dinossauro mascote) aparece:
-  - grande e animado na home e na tela de login/onboarding;
-  - como um botão flutuante no canto da tela em **todas** as páginas
-    (clique nele para uma dica rápida).
+🌎 **Mais conexão** — aproximando pessoas, idiomas e conhecimento.
 
-## Estrutura do projeto
+---
 
-```
-app/
-  page.tsx                    → landing pública
-  login/                      → login (sem cadastro público)
-  onboarding/                 → boas-vindas no primeiro acesso
-  configuracoes/              → trocar e-mail/senha (opcional)
-  painel/
-    layout.tsx                → navbar + trava de onboarding
-    page.tsx                  → redireciona conforme o papel do usuário
-    admin/                    → admin e colaborador (escolas, turmas, usuários)
-    turma/                    → "Painel da Turma" do professor
-    aluno/                    → área do aluno
-  api/admin/
-    criar-usuario/            → cria contas (usa a service_role key)
-    resetar-senha/            → redefine senhas
-components/                    → Mascote, navbar, formulários, seletor de turma...
-lib/
-  actions/                     → server actions (tarefas, notas, materiais, turmas)
-  data/                        → helpers de consulta (turma do professor/aluno)
-  supabase/                    → clientes (browser, servidor, admin, middleware)
-supabase/                      → migrações SQL
-```
+## 🎨 Uma experiência pensada nos detalhes
 
-## O que ainda não está incluso (próximos passos)
+O EducaTurdi Language combina **design, tecnologia e simplicidade** para criar uma experiência que vai além dos métodos tradicionais.
 
-- Provas com correção automática (as tabelas `provas`/`questoes`/`opcoes` já
-  existem no banco, prontas para uma tela de prova cronometrada no futuro).
-- Upload de arquivo direto (hoje apostilas/resumos usam um link — ex.: Google
-  Drive. Dá pra evoluir para o Supabase Storage depois).
-- Horários de aula e fichas disciplinares (tabelas já existem, sem tela ainda).
+Cada detalhe da interface foi pensado para deixar a navegação mais agradável, mantendo uma identidade visual moderna e uma experiência intuitiva.
+
+> **Aprender também pode ser uma experiência.**
+
+---
+
+## 🌟 Mais que aprendizado
+
+O EducaTurdi Language representa uma nova maneira de enxergar a tecnologia no aprendizado de idiomas.
+
+Um ambiente digital criado para tornar o processo mais moderno, organizado e conectado, aproximando tecnologia e conhecimento.
+
+> **O futuro do aprendizado começa aqui.**
+
+---
+
+## 🛠️ Tecnologias
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Supabase-%233ECF8E.svg?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" draggable="false">
+  <img src="https://img.shields.io/badge/Next-%23000.svg?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" draggable="false">
+  <img src="https://img.shields.io/badge/node.js-%236DA55F.svg?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" draggable="false">
+  <img src="https://img.shields.io/badge/expo-%231C1E24.svg?style=for-the-badge&logo=expo&logoColor=%23D04A37" alt="Expo" draggable="false">
+  <img src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" draggable="false">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/css-%23663399.svg?style=for-the-badge&logo=css&logoColor=white" alt="CSS" draggable="false">
+  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript" draggable="false">
+  <img src="https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white" alt="Markdown" draggable="false">
+  <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" draggable="false">
+  <img src="https://img.shields.io/badge/yaml-%23ffffff.svg?style=for-the-badge&logo=yaml&logoColor=151515" alt="YAML" draggable="false">
+  <img src="https://img.shields.io/badge/sqlalchemy-%23D71F00.svg?style=for-the-badge&logo=sqlalchemy&logoColor=white" alt="SQLAlchemy" draggable="false">
+</p>
+
+<p align="center">
+  <code>┌─────────────────────────────────────────────────────┐</code><br>
+  <code>│  🗣️ APRENDIZADO  •  TECNOLOGIA  •  CONEXÃO  •  🚀  │</code><br>
+  <code>└─────────────────────────────────────────────────────┘</code>
+</p>
+
+---
+
+## 🗣️ EducaTurdi Language
+
+<p align="center">
+  <strong>Uma nova experiência para aprender idiomas.</strong><br><br>
+  Gostaria de conhecer mais sobre o projeto?<br>
+  <strong>Converse com a gente!</strong><br>
+  📧 <a href="mailto:EducaTurdi@gmail.com"><strong>EducaTurdi@gmail.com</strong></a>
+</p>
+
+<p align="center">
+  Desenvolvido com dedicação por <strong>SprokTurdi</strong> 🦖
+</p>
