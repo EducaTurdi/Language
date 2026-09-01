@@ -1,15 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
 import {
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  icons: { icon: "/turmas/icon.svg" },
-};
   criarTurma,
   atualizarNivelIngles,
   vincularProfessor,
   desvincularProfessor,
 } from "@/lib/actions/escolas-turmas";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: { icon: "/turmas/icon.svg" },
+};
 
 const NIVEIS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
